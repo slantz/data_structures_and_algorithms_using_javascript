@@ -35,7 +35,10 @@ function remove(item) {
    var currNode = this.find(item);
    if (!(currNode.next == null)) {
        currNode.previous.next = currNode.next;
-       currNode.next.previous = currNode.previous;
+       // if we try to remove last element in the list via this method it will fail as previous of null.
+       if (current.next !== null) {
+         currNode.next.previous = currNode.previous;
+       }
        currNode.next = null;
        currNode.previous = null;
    }
@@ -72,6 +75,10 @@ function insert(newElement, item) {
    var current = this.find(item);
    newNode.next = current.next;
    newNode.previous = current;
+   // if there is next element than it should have previous reference to current one or else it would preserve reference to it's previous element in th list
+   if (newNode.next) {
+     newNode.next.previous = newNode;
+   }
    current.next = newNode;
 }
    
